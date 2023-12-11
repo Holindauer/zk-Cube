@@ -2,8 +2,11 @@ mod cube;
 mod moves;
 mod parse;
 mod rotation;
+mod verify;
 
 fn main() {
+
+    // Parse the command line arguments ----> 2 string vectors containing the scramble and solution
     let (scramble, solution) = match parse::parse_args() {
         Ok((first_arg_words, second_arg_words)) => {
             println!("First argument words: {:?}", first_arg_words);
@@ -17,11 +20,11 @@ fn main() {
         }
     };
 
-    // Create a solved rubiks cube array
+    // Create a solved 3x3 rubiks cube array --- 5x5x5 in memory
     let mut rubiks_cube = cube::create_solved_cube();
 
-    // Display the cube
-    println!("Cube Before Scramble:");
+    // Display the cube before scrambling
+    println!("\nCube Before Scramble:");
     cube::display_cube(&rubiks_cube);
 
     // iterate through the scramble vector, passing each string to the make_move function
@@ -41,4 +44,12 @@ fn main() {
     // Display the cube after applying the solution
     println!("Cube After Applying Solution:");
     cube::display_cube(&rubiks_cube);
+
+    // Check if the cube is solved
+    if verify::is_solved(&rubiks_cube) {
+        println!("Cube is solved!");
+    } else {
+        println!("Cube is not solved!");
+    }
 }
+
